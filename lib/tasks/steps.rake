@@ -31,6 +31,8 @@ namespace :steps do
       list_of_movies.push(movie_hash)
     end
 
-    ap list_of_movies
+    ap "Saving movies to file 'coming_soon.csv...'"
+
+    list_of_movies.to_csv("coming_soon.csv")
   end
 end
