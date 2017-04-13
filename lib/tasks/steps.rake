@@ -9,19 +9,22 @@ namespace :steps do
 
     doc = Nokogiri::HTML(page)
 
-    movie_node = doc.css(".nm-title-overview-widget-layout").first
+    all_movie_nodes = doc.css(".nm-title-overview-widget-layout")
 
-    title = movie_node.css("h4").text.strip
+    all_movie_nodes.each do |one_movie_node|
+      title = one_movie_node.css("h4").text.strip
 
-    # SelectorGadget is awesome for difficult to diagnose CSS selectors!
-    director = movie_node.css(".outline+ .txt-block a").text.strip
-    genre = movie_node.css(".cert-runtime-genre span").text.strip
-    runtime = movie_node.css("time").text.strip
-    description = movie_node.css(".overview-top .outline").text.strip
+      # SelectorGadget is awesome for difficult to diagnose CSS selectors!
+      director = one_movie_node.css(".outline+ .txt-block a").text.strip
+      genre = one_movie_node.css(".cert-runtime-genre span").text.strip
+      runtime = one_movie_node.css("time").text.strip
+      description = one_movie_node.css(".overview-top .outline").text.strip
 
-    ap title
-    ap genre
-    ap runtime
-    ap description
+      ap title
+      ap genre
+      ap runtime
+      ap description
+      ap "=" * 80
+    end
   end
 end
