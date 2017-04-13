@@ -11,6 +11,8 @@ namespace :steps do
 
     all_movie_nodes = doc.css(".nm-title-overview-widget-layout")
 
+    list_of_movies = Array.new
+
     all_movie_nodes.each do |one_movie_node|
       title = one_movie_node.css("h4").text.strip
 
@@ -26,7 +28,9 @@ namespace :steps do
       movie_hash[:runtime] = runtime
       movie_hash[:description] = description
 
-      ap movie_hash
+      list_of_movies.push(movie_hash)
     end
+
+    ap list_of_movies
   end
 end
