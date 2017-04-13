@@ -9,6 +9,6 @@ namespace :scrape do
 
     doc = Nokogiri::HTML(page)
 
-    binding.pry
+    ap "Hello, world!"
   end
 end
