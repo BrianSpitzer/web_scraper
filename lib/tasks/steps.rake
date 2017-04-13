@@ -20,11 +20,13 @@ namespace :steps do
       runtime = one_movie_node.css("time").text.strip
       description = one_movie_node.css(".overview-top .outline").text.strip
 
-      ap title
-      ap genre
-      ap runtime
-      ap description
-      ap "=" * 80
+      movie_hash = Hash.new
+      movie_hash[:title] = title
+      movie_hash[:genre] = genre
+      movie_hash[:runtime] = runtime
+      movie_hash[:description] = description
+
+      ap movie_hash
     end
   end
 end
