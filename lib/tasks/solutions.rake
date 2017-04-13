@@ -1,4 +1,4 @@
-namespace :solutions do
+namespace :steps do
   desc "Scrape IMDb Movies Coming Soon and output CSV"
   task movies: :environment do
     # url = "http://www.imdb.com/movies-coming-soon/"
@@ -9,32 +9,29 @@ namespace :solutions do
 
     doc = Nokogiri::HTML(page)
 
-    list_of_movies = []
+    all_movie_nodes = doc.css(".nm-title-overview-widget-layout")
 
-    doc.css("tbody").each do |movie|
-      movie_hash = {}
+    list_of_movies = Array.new
 
-      movie_hash[:title] = movie.css(".overview-top h4 a").text.strip
-      puts "Movie: #{movie_hash[:title]}"
+    all_movie_nodes.each do |one_movie_node|
+      title = one_movie_node.css("h4").text.strip
 
-      movie_hash[:director] = movie.css(".outline+ .txt-block a").text.strip
-      puts "Director: #{movie_hash[:director]}"
+      # SelectorGadget is awesome for difficult to diagnose CSS selectors!
+      director = one_movie_node.css(".outline+ .txt-block a").text.strip
+      genre = one_movie_node.css(".cert-runtime-genre span").text.strip
+      runtime = one_movie_node.css("time").text.strip
+      description = one_movie_node.css(".overview-top .outline").text.strip
 
-      movie_hash[:genres] = movie.css(".cert-runtime-genre span").text.strip
-      puts "Genres: #{movie_hash[:genres]}"
-
-      movie_hash[:duration] = movie.css("time").text.strip
-      puts "Duration: #{movie_hash[:duration]}"
-
-      movie_hash[:description] = movie.css(".overview-top .outline").text.strip
-      puts "Description: #{movie_hash[:description]}"
-
-      puts "************************************************"
+      movie_hash = Hash.new
+      movie_hash[:title] = title
+      movie_hash[:genre] = genre
+      movie_hash[:runtime] = runtime
+      movie_hash[:description] = description
 
       list_of_movies.push(movie_hash)
     end
 
-    ap list_of_movies
+    ap "Saving movies to file 'coming_soon.csv...'"
 
     list_of_movies.to_csv("coming_soon.csv")
   end
