@@ -9,22 +9,14 @@ namespace :steps do
 
     doc = Nokogiri::HTML(page)
 
-    # First I find a CSS selector by right-clicking and Inspecting in Chrome
-    #   In this case, I found elements class="nm-title-overview-widget-layout"
-    #   that looks like they might each contain one movie.
+    movie_node = doc.css(".nm-title-overview-widget-layout").first
 
-    # Are there the right number?
-    # ap doc.css(".nm-title-overview-widget-layout").count
+    ap movie_node.css("h4").text.strip
 
-    # Is the first element what we expect?
-    # ap doc.css(".nm-title-overview-widget-layout").first
-
-    # Let's drill deeper for a specific attribute. Right-click again in Chrome.
-    # ap doc.css(".nm-title-overview-widget-layout").first.css("h4")
-
-    # Get the actual text:
-    # ap doc.css(".nm-title-overview-widget-layout").first.css("h4").text
-
-    ap doc.css(".nm-title-overview-widget-layout").first.css("h4").text.strip
+    # SelectorGadget is awesome for difficult to diagnose CSS selectors!
+    ap movie_node.css(".outline+ .txt-block a").text.strip
+    ap movie_node.css(".cert-runtime-genre span").text.strip
+    ap movie_node.css("time").text.strip
+    ap movie_node.css(".overview-top .outline").text.strip
   end
 end
